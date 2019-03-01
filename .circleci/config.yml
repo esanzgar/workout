@@ -11,7 +11,7 @@ jobs:
       - image: node:alpine
     steps:
       - checkout
-      - prepare
+      - prepare:
       - run: yarn build
         # version: 2
         # jobs:
