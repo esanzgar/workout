@@ -1,12 +1,18 @@
 version: 2
+commands:
+  prepare:
+    description: "Install dependencies"
+    steps:
+      - run: yarn install --frozen-lockfile --no-progress --cache-folder .yarn
+      - run: yarn ng --version
 jobs:
   build:
     docker:
       - image: node:alpine
     steps:
       - checkout
-      - run: yarn install --frozen-lockfile --no-progress
-      - run: yarn ng --version
+      - prepare
+      - run: yarn build
         # version: 2
         # jobs:
         #   build:
