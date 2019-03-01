@@ -5,9 +5,7 @@ jobs:
       - image: node:alpine
     steps:
       - checkout
-      - run:
-          - yarn install --frozen-lockfile --no-progress
-          - yarn ng --version
+      - run: yarn install --frozen-lockfile --no-progress
         # version: 2
         # jobs:
         #   build:
