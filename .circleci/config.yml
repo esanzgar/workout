@@ -6,6 +6,7 @@ jobs:
     steps:
       - checkout
       - run: yarn install --frozen-lockfile --no-progress
+      - run: yarn ng --version
         # version: 2
         # jobs:
         #   build:
