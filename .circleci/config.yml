@@ -10,7 +10,7 @@ commands:
 jobs:
   build:
     docker:
-      - image: esanzgar:node-chromium
+      - image: esanzgar/node-chromium
     steps:
       - checkout
       - install_dependencies
