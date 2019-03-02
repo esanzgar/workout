@@ -10,11 +10,13 @@ commands:
 jobs:
   build:
     docker:
-      - image: node:alpine
+      - image: esanzgar:node-chromium
     steps:
       - checkout
       - install_dependencies
       - run: yarn build --progress=false
+      - run: yarn lint
+      - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
     # save_cache:
     #   key: yarn
     #   paths:
