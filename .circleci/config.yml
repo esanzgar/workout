@@ -14,9 +14,9 @@ jobs:
     steps:
       - checkout
       - install_dependencies
-      - run: yarn build --progress=false
       - run: yarn lint
       - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
+      - run: yarn build --progress=false
     # save_cache:
     #   key: yarn
     #   paths:
