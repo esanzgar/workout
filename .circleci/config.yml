@@ -54,7 +54,7 @@ jobs:
       # - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       # - run: yarn build --progress=false
       - store_artifacts:
-          paths: dist/workout
+          path: dist/workout
 
 workflows:
   version: 2
