@@ -14,6 +14,10 @@ commands:
           key: yarn-{{ checksum "yarn.lock" }}
           paths:
             - .yarn
+      - save_cache:
+          key: node-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
 
 jobs:
   prepare:
@@ -23,7 +27,7 @@ jobs:
       - checkout
       - install_dependencies
       - persist_to_workspace:
-          root: /tmp/node_modules
+          root: .
           paths:
             - node_modules
 
@@ -32,8 +36,8 @@ jobs:
       - image: node:alpine
     steps:
       - checkout
-      - attach_workspace:
-          at: tmp/node_modules
+      - restore_cache:
+          key: node-{{ checksum "yarn.lock" }}
       - run: yarn lint
 
   test:
