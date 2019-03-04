@@ -1,27 +1,38 @@
-# Workout
+[![CircleCI](https://circleci.com/gh/esanzgar/workout.svg?style=svg)](https://circleci.com/gh/esanzgar/workout)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
+# EBI workspace
+
+[Description]
+
+The service can be accessed at:
+
+[URL]
+
+A life and editable version of service can be accessed at:
+
+[URL]
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+To develop locally run the development server following one of these recipes:
 
-## Code scaffolding
+1. With yarn:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+yarn install [--frozen-lockfile]
+yarn start
+```
 
-## Build
+2. With npm:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
+npm ci
+npm start
+```
 
-## Running unit tests
+## Want to help?
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Want to file a bug, contribute some code, or improve documentation? Excellent!
+Read up on our guidelines for [contributing][contributing].
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+[contributing]: [URL]/CONTRIBUTING.md

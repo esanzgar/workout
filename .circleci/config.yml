@@ -4,23 +4,17 @@ commands:
   install_dependencies:
     description: "Install dependencies"
     steps:
+      - restore_cache:
+          keys: yarn
       - run: |
           yarn install --frozen-lockfile --no-progress --cache-folder .yarn
           yarn ng --version
+      - save_cache:
+          key: yarn
+          paths:
+            - .yarn
+
 jobs:
-  build:
-    docker:
-      - image: esanzgar/node-chromium
-    steps:
-      - checkout
-      - install_dependencies
-      - run: yarn lint
-      - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
-      - run: yarn build --progress=false
-    # save_cache:
-    #   key: yarn
-    #   paths:
-    #     - .yarn
   lint:
     docker:
       - image: node:alpine
@@ -28,6 +22,7 @@ jobs:
       - checkout
       - install_dependencies
       - run: yarn lint
+
   test:
     docker:
       - image: esanzgar:node-chromium
@@ -35,58 +30,41 @@ jobs:
       - checkout
       - install_dependencies
       - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
-        #       - restore_cache:
-        #           keys:
-        #             - v1-my-project-{{ checksum "project.clj" }}
-        #             - v1-my-project-
-        #
-        #
-        #       # Save artifacts
-        #       - store_artifacts:
-        #           path: /tmp/artifacts
-        #           destination: build
-        #
-        #       # Upload test results
-        #       - store_test_results:
-        #           path: /tmp/test-reports
-        #
-        #   # deploy-stage:
-        #   #   docker:
-        #   #     - image: ubuntu:14.04
-        #   #   working_directory: /tmp/my-project
-        #   #   steps:
-        #   #     - run:
-        #   #         name: Deploy if tests pass and branch is Staging
-        #   #         command: ansible-playbook site.yml -i staging
-        #
-        #   # deploy-prod:
-        #   #   docker:
-        #   #     - image: ubuntu:14.04
-        #   #   working_directory: /tmp/my-project
-        #   #   steps:
-        #   #     - run:
-        #   #         name: Deploy if tests pass and branch is Master
-        #   #         command: ansible-playbook site.yml -i production
-        #
-        # workflows:
-        #   version: 2
-        #   build-deploy:
-        #     jobs:
-        #       - build:
-        #           filters:
-        #             branches:
-        #               ignore:
-        #                 - develop
-        #                 - /feature-.*/
-        #       # - deploy-stage:
-        #       #     requires:
-        #       #       - build
-        #       #     filters:
-        #       #       branches:
-        #       #         only: staging
-        #       # - deploy-prod:
-        #       #     requires:
-        #       #       - build
-        #       #     filters:
-        #       #       branches:
-        #       #         only: master
+      - store_artifacts:
+          path:
+            - coverage
+  build:
+    docker:
+      # - image: esanzgar/node-chromium
+      - image: node/chromium
+    steps:
+      - checkout
+      - install_dependencies
+      - run: yarn lint
+      # - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
+      # - run: yarn build --progress=false
+      - store_artifacts:
+          path:
+            # - coverage
+            - dist/workout
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - lint
+      - test
+      - build:
+          requires:
+            - test
+      #    filters:
+      #      branches:
+      #        ignore:
+      #          - develop
+      #          - /feature-.*/
+      # - deploy:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only: master
