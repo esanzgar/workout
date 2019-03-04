@@ -4,10 +4,10 @@ commands:
   install_dependencies:
     description: "Install dependencies"
     steps:
-      # - restore_cache:
-      #     keys: yarn
+      - run: apk add ca-certificates
+      - restore_cache:
+          keys: yarn
       - run: |
-          apk add ca-certificates
           yarn install --frozen-lockfile --no-progress --cache-folder .yarn
           yarn ng --version
       - save_cache:
@@ -25,7 +25,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - node_modules/*
+            - node_modules
 
   lint:
     docker:
