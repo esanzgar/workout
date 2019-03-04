@@ -15,6 +15,17 @@ commands:
             - .yarn
 
 jobs:
+  prepare:
+    docker:
+      - image: node:alpine
+    steps:
+      - checkout
+      - install_dependencies
+      - run: yarn lint
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - node_modules/*
   lint:
     docker:
       - image: node:alpine
@@ -25,14 +36,13 @@ jobs:
 
   test:
     docker:
-      - image: esanzgar:node-chromium
+      - image: esanzgar/node-chromium
     steps:
       - checkout
       - install_dependencies
       - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       - store_artifacts:
-          path:
-            - coverage
+          path: coverage
   build:
     docker:
       # - image: esanzgar/node-chromium
@@ -44,16 +54,19 @@ jobs:
       # - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       # - run: yarn build --progress=false
       - store_artifacts:
-          path:
-            # - coverage
-            - dist/workout
+          paths: dist/workout
 
 workflows:
   version: 2
   build-deploy:
     jobs:
-      - lint
-      - test
+      - prepare
+      - lint:
+          requires:
+            - prepare
+      - test:
+          requires:
+            - prepare
       - build:
           requires:
             - test
