@@ -61,7 +61,7 @@ jobs:
       - run: apk add ca-certificates # needed, otherwise problem saving/restoring caches
       - restore_cache:
           key: node-{{ checksum "yarn.lock" }}
-      - run: yarn lint
+      - run: yarn build --progress=false
       - store_artifacts:
           path: dist/workout
 
