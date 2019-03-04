@@ -9,10 +9,10 @@ commands:
       - run: |
           yarn install --frozen-lockfile --no-progress --cache-folder .yarn
           yarn ng --version
-      # - save_cache:
-      #     key: yarn
-      #     paths:
-      #       - .yarn
+      - save_cache:
+          key: yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - .yarn
 
 jobs:
   prepare:
@@ -21,10 +21,10 @@ jobs:
     steps:
       - checkout
       - install_dependencies
-      # - persist_to_workspace:
-      #     root: ./
-      #     paths:
-      #       - node_modules/*
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules/*
 
   lint:
     docker:
