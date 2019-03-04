@@ -4,7 +4,7 @@ commands:
   install_dependencies:
     description: "Install dependencies"
     steps:
-      - run: apk add ca-certificates
+      - run: apk add ca-certificates # needed, otherwise problem saving/restoring caches
       - restore_cache:
           keys: yarn
       - run: |
@@ -32,6 +32,8 @@ jobs:
       - image: node:alpine
     steps:
       - checkout
+      - attach_workspace:
+          at: node_modules
       - run: yarn lint
 
   test:
@@ -39,6 +41,8 @@ jobs:
       - image: esanzgar/node-chromium
     steps:
       - checkout
+      - attach_workspace:
+          at: node_modules
       - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       - store_artifacts:
           path: coverage
@@ -48,6 +52,8 @@ jobs:
       - image: node/chromium
     steps:
       - checkout
+      - attach_workspace:
+          at: node_modules
       - run: yarn lint
       # - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       # - run: yarn build --progress=false
