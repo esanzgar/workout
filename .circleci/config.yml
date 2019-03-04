@@ -4,15 +4,15 @@ commands:
   install_dependencies:
     description: "Install dependencies"
     steps:
-      - restore_cache:
-          keys: yarn
+      # - restore_cache:
+      #     keys: yarn
       - run: |
           yarn install --frozen-lockfile --no-progress --cache-folder .yarn
           yarn ng --version
-      - save_cache:
-          key: yarn
-          paths:
-            - .yarn
+      # - save_cache:
+      #     key: yarn
+      #     paths:
+      #       - .yarn
 
 jobs:
   prepare:
@@ -21,17 +21,16 @@ jobs:
     steps:
       - checkout
       - install_dependencies
-      - run: yarn lint
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - node_modules/*
+      # - persist_to_workspace:
+      #     root: ./
+      #     paths:
+      #       - node_modules/*
+
   lint:
     docker:
       - image: node:alpine
     steps:
       - checkout
-      - install_dependencies
       - run: yarn lint
 
   test:
@@ -39,7 +38,6 @@ jobs:
       - image: esanzgar/node-chromium
     steps:
       - checkout
-      - install_dependencies
       - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       - store_artifacts:
           path: coverage
@@ -49,7 +47,6 @@ jobs:
       - image: node/chromium
     steps:
       - checkout
-      - install_dependencies
       - run: yarn lint
       # - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       # - run: yarn build --progress=false
