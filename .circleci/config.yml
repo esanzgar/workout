@@ -6,7 +6,7 @@ commands:
     steps:
       - run: apk add ca-certificates # needed, otherwise problem saving/restoring caches
       - restore_cache:
-          keys: yarn
+          key: yarn-{{ checksum "yarn.lock" }}
       - run: |
           yarn install --frozen-lockfile --no-progress --cache-folder .yarn
           yarn ng --version
@@ -23,7 +23,7 @@ jobs:
       - checkout
       - install_dependencies
       - persist_to_workspace:
-          root: .
+          root: /tmp/node_modules
           paths:
             - node_modules
 
@@ -33,7 +33,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: node_modules
+          at: tmp/node_modules
       - run: yarn lint
 
   test:
@@ -42,10 +42,11 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: node_modules
+          at: tmp/node_modules
       - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       - store_artifacts:
           path: coverage
+
   build:
     docker:
       # - image: esanzgar/node-chromium
@@ -53,7 +54,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: node_modules
+          at: tmp/node_modules
       - run: yarn lint
       # - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       # - run: yarn build --progress=false
