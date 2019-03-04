@@ -4,11 +4,7 @@
 
 [Description]
 
-The service can be accessed at:
-
-[URL]
-
-A life and editable version of service can be accessed at:
+A live and editable version of the app can be accessed at:
 
 [URL]
 
