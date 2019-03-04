@@ -1,0 +1,6 @@
+<workout-auth-form (submitted)="login($event)">
+  <h1>Login</h1>
+  <button>Login</button>
+  <div class="error" *ngIf="error">{{ error }}</div>
+  <a routerLink="/auth/register">Create account?</a>
+</workout-auth-form>

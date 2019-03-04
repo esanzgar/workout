@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <ng-content select="h1"> </ng-content>
+
+  <label>
+    Email
+    <input
+      type="email"
+      autocomplete="username"
+      placeholder="your@email.com"
+      required
+      formControlName="email"
+    />
+  </label>
+
+  <label>
+    Password
+    <input
+      type="password"
+      autocomplete="current-password"
+      placeholder="password"
+      required
+      formControlName="password"
+    />
+  </label>
+
+  <div class="error" *ngIf="emailError">
+    A valid email must be provided.
+  </div>
+
+  <div class="error" *ngIf="passwordError">
+    A password must be provided.
+  </div>
+
+  <ng-content select=".error"> </ng-content>
+
+  <ng-content select="button"> </ng-content>
+
+  <ng-content select="a"> </ng-content>
+</form>

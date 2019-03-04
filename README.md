@@ -1,12 +1,11 @@
 [![CircleCI](https://circleci.com/gh/esanzgar/workout.svg?style=svg)](https://circleci.com/gh/esanzgar/workout)
 
-# EBI workspace
+# Workout
 
-[Description]
+Fitness application
 
 A live and editable version of the app can be accessed at:
-
-[URL]
+https://stackblitz.com/github/esanzgar/workout
 
 ## Development server
 
