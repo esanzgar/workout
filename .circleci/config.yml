@@ -36,6 +36,7 @@ jobs:
       - image: node:alpine
     steps:
       - checkout
+      - run: apk add ca-certificates # needed, otherwise problem saving/restoring caches
       - restore_cache:
           key: node-{{ checksum "yarn.lock" }}
       - run: yarn lint
@@ -45,23 +46,22 @@ jobs:
       - image: esanzgar/node-chromium
     steps:
       - checkout
-      - attach_workspace:
-          at: tmp/node_modules
+      - run: apk add ca-certificates # needed, otherwise problem saving/restoring caches
+      - restore_cache:
+          key: node-{{ checksum "yarn.lock" }}
       - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
       - store_artifacts:
           path: coverage
 
   build:
     docker:
-      # - image: esanzgar/node-chromium
-      - image: node/chromium
+      - image: node:alpine
     steps:
       - checkout
-      - attach_workspace:
-          at: tmp/node_modules
+      - run: apk add ca-certificates # needed, otherwise problem saving/restoring caches
+      - restore_cache:
+          key: node-{{ checksum "yarn.lock" }}
       - run: yarn lint
-      # - run: yarn test --progress=false --karma-config=src/karma_chromium.conf.js
-      # - run: yarn build --progress=false
       - store_artifacts:
           path: dist/workout
 
