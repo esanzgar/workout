@@ -13,7 +13,12 @@ import { HeaderComponent } from "./components/header/header.component";
 
 @NgModule({
   declarations: [AppComponent, NavigationComponent, HeaderComponent],
-  imports: [BrowserModule, AppRoutingModule, AuthModule, HealthModule],
+  imports: [
+    BrowserModule.withServerTransition({ appId: "serverApp" }),
+    AppRoutingModule,
+    AuthModule,
+    HealthModule
+  ],
   providers: [StoreService],
   bootstrap: [AppComponent]
 })
