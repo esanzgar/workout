@@ -1,5 +1,7 @@
-<workout-header (logout)="onLogout()"></workout-header>
-<workout-navigation></workout-navigation>
+<ng-container *ngIf="(user | async)">
+  <workout-header (logout)="onLogout()"></workout-header>
+  <workout-navigation></workout-navigation>
+</ng-container>
 
 {{ user | async | json }}
 
