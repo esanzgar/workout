@@ -1,12 +1,23 @@
 import { NgModule, Optional, SkipSelf } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+
+import { firebaseAppConfig } from "../environments/environment";
+
 import { SharedModule } from "./shared/shared.module";
 
 import { AuthRoutingModule } from "./auth-routing.module";
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, AuthRoutingModule, SharedModule.forRoot()]
+  imports: [
+    CommonModule,
+    AuthRoutingModule,
+    SharedModule.forRoot(),
+    AngularFireModule.initializeApp(firebaseAppConfig),
+    AngularFireAuthModule
+  ]
 })
 export class AuthModule {
   constructor(@Optional() @SkipSelf() parentModule: AuthModule) {

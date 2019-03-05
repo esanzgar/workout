@@ -1,4 +1,6 @@
-<workout-header></workout-header>
+<workout-header (logout)="onLogout()"></workout-header>
 <workout-navigation></workout-navigation>
+
+{{ user | async | json }}
 
 <router-outlet></router-outlet>

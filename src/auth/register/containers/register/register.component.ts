@@ -1,5 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
+import { Router } from "@angular/router";
+
+import { AuthService } from "../../../shared/services/auth.service";
 
 @Component({
   selector: "workout-register",
@@ -9,12 +12,19 @@ import { FormControl } from "@angular/forms";
 export class RegisterComponent implements OnInit {
   error: string | null = null;
 
-  constructor() {}
+  constructor(private _auth: AuthService, private _router: Router) {}
 
   ngOnInit() {}
 
-  createAccount(form: FormControl) {
+  async createAccount(form: FormGroup) {
     this.error = null;
     const { email, password } = form.value;
+
+    try {
+      await this._auth.signup(email, password);
+      this._router.navigate(["/"]);
+    } catch (error) {
+      this.error = error.message;
+    }
   }
 }
